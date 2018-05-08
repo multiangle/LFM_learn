@@ -12,7 +12,7 @@ import math
 
 def LFM_naive(m, k):
     '''
-    此函数实现的是最简单的
+    此函数实现的是最简单的 LFM 功能
     :param m: 表示需要分解的评价矩阵
     :param k: 分解的隐变量个数
     :return:  分解完毕的矩阵 u, v
