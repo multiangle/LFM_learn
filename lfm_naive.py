@@ -10,16 +10,24 @@ __author__ = 'multiangle'
 import numpy as np
 import math
 
-def LFM_naive(D, k):
+def LFM_naive(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     '''
     此函数实现的是最简单的 LFM 功能
     :param D: 表示需要分解的评价矩阵, type = np.ndarray
     :param k: 分解的隐变量个数
+    :param iter_times: 迭代次数
+    :param alpha: 正则系数
+    :param learn_rate: 学习速率
     :return:  分解完毕的矩阵 U, V
     '''
     assert type(D) == np.ndarray
-    m, n = D.shape
-    U = np.random
+    m, n = D.shape  # D size = m * n
+    U = np.random.rand(m, k)    # 为何要一个均匀分布一个正态分布？
+    V = np.random.randn(k, n)
+    for t in range(iter_times):
+        # 这里，对原文中公式推导我认为是推导正确的，但是循环效率太低了，可以以矩阵形式计算
+
+
     
 
 if __name__=='__main__':
