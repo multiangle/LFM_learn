@@ -10,15 +10,17 @@ __author__ = 'multiangle'
 import numpy as np
 import math
 
-def LFM_naive(m, k):
+def LFM_naive(D, k):
     '''
     此函数实现的是最简单的 LFM 功能
-    :param m: 表示需要分解的评价矩阵
+    :param D: 表示需要分解的评价矩阵, type = np.ndarray
     :param k: 分解的隐变量个数
-    :return:  分解完毕的矩阵 u, v
+    :return:  分解完毕的矩阵 U, V
     '''
-
-
+    assert type(D) == np.ndarray
+    m, n = D.shape
+    U = np.random
+    
 
 if __name__=='__main__':
-    pass
+    LFM_naive(np.ones(1), 1)
