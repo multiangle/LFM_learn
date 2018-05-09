@@ -9,6 +9,7 @@ __author__ = 'multiangle'
 
 import numpy as np
 import math
+from matplotlib import pyplot as plt
 
 def LFM_naive(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     '''
@@ -18,17 +19,32 @@ def LFM_naive(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     :param iter_times: 迭代次数
     :param alpha: 正则系数
     :param learn_rate: 学习速率
-    :return:  分解完毕的矩阵 U, V
+    :return:  分解完毕的矩阵 U, V, 以及误差列表err_list
     '''
     assert type(D) == np.ndarray
     m, n = D.shape  # D size = m * n
     U = np.random.rand(m, k)    # 为何要一个均匀分布一个正态分布？
     V = np.random.randn(k, n)
+    err_list = []
     for t in range(iter_times):
         # 这里，对原文中公式推导我认为是推导正确的，但是循环效率太低了，可以以矩阵形式计算
+        D_est = np.matmul(U, V)
+        ERR = D - D_est
+        U_grad = -2 * np.matmul(ERR, V.transpose()) + 2 * alpha * U
+        V_grad = -2 * np.matmul(U.transpose(), ERR) + 2 * alpha * V
+        U = U - learn_rate * U_grad
+        V = V - learn_rate * V_grad
 
-
+        ERR2 = np.multiply(ERR, ERR)
+        ERR2_sum = np.sum(np.sum(ERR2))
+        err_list.append(ERR2_sum)
+    return U, V, err_list
     
 
 if __name__=='__main__':
-    LFM_naive(np.ones(1), 1)
+    D = np.array([[5,5,0,5],[5,0,3,4],[3,4,0,3],[0,0,5,3],[5,4,4,5],[5,4,5,5]])
+    U, V, err_list = LFM_naive(D, 3, iter_times=100, learn_rate=0.01, alpha=0.01)
+    print(err_list[-1])
+    err_log = np.log(np.array(err_list))
+    plt.plot(err_list)
+    plt.show()
