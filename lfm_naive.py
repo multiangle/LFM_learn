@@ -9,7 +9,7 @@ __author__ = 'multiangle'
 
 import numpy as np
 import math
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 
 def LFM_ed1(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     """
@@ -133,9 +133,9 @@ def LFM_ed4(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
 
 if __name__=='__main__':
     D = np.array([[5,5,0,5],[5,0,3,4],[3,4,0,3],[0,0,5,3],[5,4,4,5],[5,4,5,5]])
-    # U, V, err_list = LFM_ed3(D, 3, iter_times=100, learn_rate=0.01, alpha=0.01)
-    _, _,_, _, _, err_list = LFM_ed4(D, 3, iter_times=10000, learn_rate=0.01, alpha=0.01)
+    U, V, err_list = LFM_ed2(D, 3, iter_times=1000, learn_rate=0.01, alpha=0.01)
+    # _, _,_, _, _, err_list = LFM_ed4(D, 3, iter_times=10000, learn_rate=0.01, alpha=0.01)
     print(err_list[-1])
     # err_log = np.log(np.array(err_list))
-    # plt.plot(err_list)
-    # plt.show()
+    plt.plot(err_list)
+    plt.show()
