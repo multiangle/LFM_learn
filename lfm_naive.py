@@ -10,6 +10,7 @@ __author__ = 'multiangle'
 import numpy as np
 import math
 from matplotlib import pyplot as plt
+from sklearn.decomposition import NMF
 
 def LFM_ed1(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     """
@@ -64,6 +65,7 @@ def LFM_ed3(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     :param learn_rate: 学习速率
     :return: U, V, B_u, B_v, miu, err_list
     """
+    assert type(D) == np.ndarray
     B_u = np.mean(D, axis=1)
     B_v = np.mean(D, axis=0)
     m, n = np.shape(D)
@@ -99,6 +101,7 @@ def LFM_ed4(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
     :param learn_rate:
     :return:
     """
+    assert type(D) == np.ndarray
     m, n = np.shape(D)
     miu = np.mean(np.mean(D))
     err_list = []
@@ -131,11 +134,31 @@ def LFM_ed4(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
 
     return U, V, B_u, B_v, miu, err_list
 
+def LFM_sklearn(D, k, iter_times=1000, alpha=0.01, learn_rate=0.01):
+    """
+    调用了NMF模型
+    :param D: 
+    :param k: 
+    :param iter_times: 
+    :param alpha: 
+    :param learn_rate: 
+    :return: 
+    """
+    assert type(D) == np.ndarray
+    nmf = NMF(n_components=k, max_iter = iter_times, alpha=alpha)
+    nr = nmf.fit_transform(D)
+    print(nr)
+
 if __name__=='__main__':
     D = np.array([[5,5,0,5],[5,0,3,4],[3,4,0,3],[0,0,5,3],[5,4,4,5],[5,4,5,5]])
-    U, V, err_list = LFM_ed2(D, 3, iter_times=1000, learn_rate=0.01, alpha=0.01)
-    # _, _,_, _, _, err_list = LFM_ed4(D, 3, iter_times=10000, learn_rate=0.01, alpha=0.01)
-    print(err_list[-1])
+    # U, V, err_list = LFM_ed2(D, 3, iter_times=200, learn_rate=0.01, alpha=0.01)
+    # # _, _,_, _, _, err_list = LFM_ed4(D, 3, iter_times=10000, learn_rate=0.01, alpha=0.01)
+    # print(err_list[-1])
     # err_log = np.log(np.array(err_list))
-    plt.plot(err_list)
-    plt.show()
+    # plt.plot(err_list)
+    # plt.show()
+    # plt.figure(2)
+    # plt.plot(err_log)
+    # plt.show()
+
+    LFM_sklearn(D, 2, iter_times=1000, alpha=0.01)
